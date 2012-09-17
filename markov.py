@@ -209,8 +209,7 @@ class InteractiveTextEdit(QtGui.QWidget):
         super(InteractiveTextEdit, self).__init__()
         self.initUI()
         self.init_data()
-        self.last_word = QtCore.QString("")
-        QtCore.QObject.connect(self.text_edit, QtCore.SIGNAL('textChanged()'), self.on_text_changed)
+        self.init_slots()
 
     def initUI(self):
         text_edit = QtGui.QTextEdit()
@@ -232,7 +231,11 @@ class InteractiveTextEdit(QtGui.QWidget):
     
     def init_data(self):
         self.markov = markov_load()
+        self.last_word = QtCore.QString("")
         
+    def init_slots(self):
+        QtCore.QObject.connect(self.text_edit, QtCore.SIGNAL('textChanged()'), self.on_text_changed)
+                
     def on_text_changed(self):
         for i in range(self.prediction_widget.count())[::-1]:
                 item = self.prediction_widget.itemAt(i).widget()
